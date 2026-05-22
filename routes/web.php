@@ -12,17 +12,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-// Route::get('/get-weight', function () {
-//     return file_get_contents(public_path('weight.txt'));
-// });
 
 
-Route::get('/get-weight', function () {
-    $weight = file_get_contents(public_path('weight.txt'));
-    return response()->json([
-        'weight' => $weight
-    ]);
-});
+
+
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -40,17 +33,7 @@ Route::middleware('auth', 'role:Super Admin|Admin|Operator|Teacher')->group(func
     
 
 
-    // All Classes Routes
-    Route::view('/classes', 'admin.classes')->name('classes');
-    Route::post('/load_classes', [ClassesController::class, 'load_classes'])->name('load_classes');
-    Route::post('/insert_class', [ClassesController::class, 'insert_class'])->name('insert_class');
-    Route::get('/edit_class/{id}', [ClassesController::class, 'edit_class'])->name('edit_class');
-    Route::post('/update_class', [ClassesController::class, 'update_class'])->name('update_class');
-    Route::get('/delete_class/{id}', [ClassesController::class, 'delete_class'])->name('delete_class');
-    Route::get('/get_classes', [ClassesController::class, 'get_classes'])->name('get_classes');
-    Route::post('/update_class_status', [ClassesController::class, 'update_class_status'])->name('update_class_status');
-    
-    
+  
 
 
     // < ====================================================================== >

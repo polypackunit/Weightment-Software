@@ -130,7 +130,7 @@
             <!-- Visible when footer positions are static -->
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
             <div class="hide-fixed pull-right pad-rgt">
-                <strong>Phone</strong> 0322-0622406.
+                <!-- <strong>Phone</strong> 0322-0622406. -->
             </div>
 
 
@@ -139,7 +139,7 @@
             <!-- Remove the class "show-fixed" and "hide-fixed" to make the content always appears. -->
             <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-            <p class="pad-lft">&#0169; 2026 <a href="https://orientodev.com">Oriento Dev</a></p>
+            <p class="pad-lft">&#0169; 2026 <a href="https://orientotech.com">Oriento Tech</a></p>
 
 
 

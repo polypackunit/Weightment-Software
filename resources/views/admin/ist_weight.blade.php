@@ -108,15 +108,19 @@
 <script>
     $(document).ready(function(){
 
-        setInterval(function() {
-        $.ajax({
-            url: '/get-weight',
-            success: function(data) {
-                // $('#weight_input').val(data);
-                $('#weight_input').val(data.weight);
-            }
-        });
-        }, 1000);
+        // setInterval(function () {
+        //     $.ajax({
+        //         url: '/api/get-weight',
+        //         type: 'GET',
+        //         dataType: 'json',
+        //         success: function (data) {
+        //             $('#weight_input').val(data.weight);
+        //         },
+        //         error: function (xhr) {
+        //             console.log("Error:", xhr.responseText);
+        //         }
+        //     });
+        // }, 2000);
  
         
 
