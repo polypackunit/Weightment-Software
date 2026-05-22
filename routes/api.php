@@ -26,6 +26,7 @@ Route::get('/get-weight', function () {
     $weight = file_get_contents(public_path('weight.txt'));
 
     return response()->json([
+        
         'weight' => $weight
     ]);
 });
