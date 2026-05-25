@@ -116,12 +116,19 @@
     $(document).ready(function(){
  
         setInterval(function() {
-        $.ajax({
-            url: '/get-weight',
-            success: function(data) {
-                $('#weight_input').val(data);
-            }
-        });
+            $.ajax({
+                url: '/api/get-weight',  // Changed to /api/get-weight
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.weight && data.weight !== '0') {
+                        $('#weight_input').val(data.weight);
+                    }
+                },
+                error: function(error) {
+                    console.error('Failed to fetch weight:', error);
+                }
+            });
         }, 1000);
         
 
