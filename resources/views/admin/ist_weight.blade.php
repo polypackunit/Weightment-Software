@@ -108,19 +108,28 @@
 <script>
     $(document).ready(function(){
 
+        // Fetch weight every 1 second for real-time update
         setInterval(function () {
             $.ajax({
                 url: '/api/get-weight',
                 type: 'GET',
                 dataType: 'json',
+                timeout: 5000,
                 success: function (data) {
-                    $('#weight_input').val(data.weight);
+                    if (data.weight && data.weight !== '0') {
+                        $('#weight_input').val(data.weight);
+                        console.log('Weight updated:', data.weight, 'at', data.timestamp);
+                    }
                 },
-                error: function (xhr) {
-                    console.log("Error:", xhr.responseText);
+                error: function (xhr, status, error) {
+                    console.error('Failed to fetch weight:', {
+                        status: status,
+                        error: error,
+                        response: xhr.responseText
+                    });
                 }
             });
-        }, 2000);
+        }, 1000);
  
         
 
