@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
 use App\Models\WeightReading;
+use App\Models\Weightment;
 
 // Save weight to database AND cache
 Route::post('/weight', function () {
@@ -18,7 +19,21 @@ Route::post('/weight', function () {
         return response()->json(['error' => 'Invalid weight value'], 400);
     }
 
-    // Save to database
+    // MAIN FIX: Save to weightments table (1st weight) instead of just weight_readings
+    $weightment = Weightment::create([
+        'ist_weight' => (float)$weight,
+        'ist_time' => now()->format('H:i:s'),
+        'ist_date' => now()->format('Y-m-d'),
+        'vehicle_no' => request()->input('vehicle_no') ?? null,
+        'customer_name' => request()->input('customer_name') ?? null,
+        'supplier_name' => request()->input('supplier_name') ?? null,
+        'driver_name' => request()->input('driver_name') ?? null,
+        'gate_pass_no' => request()->input('gate_pass_no') ?? null,
+        'description' => request()->input('description') ?? null,
+        'created_by' => auth()->id() ?? null,
+    ]);
+
+    // Also save to weight_readings for logging
     $reading = WeightReading::create([
         'weight' => (float)$weight,
         'reading_type' => 'first'
@@ -34,6 +49,7 @@ Route::post('/weight', function () {
         'status' => 'ok', 
         'weight' => $weight, 
         'timestamp' => now(),
+        'weightment_id' => $weightment->id,
         'id' => $reading->id
     ]);
 });
@@ -44,12 +60,13 @@ Route::get('/get-weight', function () {
     $weight = Cache::get('current_weight');
     
     if (!$weight) {
-        // Get from database (last recorded weight)
-        $lastReading = WeightReading::latest('reading_time')
+        // Get from weightments table (last recorded 1st weight)
+        $lastWeightment = Weightment::latest('ist_date')
+            ->latest('ist_time')
             ->first();
         
-        if ($lastReading) {
-            $weight = $lastReading->weight;
+        if ($lastWeightment && $lastWeightment->ist_weight) {
+            $weight = $lastWeightment->ist_weight;
             // Store in cache for next time
             Cache::put('current_weight', $weight, now()->addMinutes(60));
         }
